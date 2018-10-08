@@ -59,10 +59,10 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    /*public function actionIndex()
     {
         return $this->render('index');
-    }
+    }*/
 
     /**
      * Login action.
@@ -124,5 +124,21 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+    
+    public function actionIndex()
+    {
+        $model = new RegisterForm();
+        
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            // valid data received in $model
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // do something meaningful here about $model ...
+
+            return $this->render('index', ['model' => $model]);
+        } else {
+            // either the page is initially displayed or there is some validation error
+            return $this->render('index', ['model' => $model]);
+        }
     }
 }
