@@ -9,6 +9,9 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Users;
+
+use app\models\RegisterForm;
 
 class SiteController extends Controller
 {
@@ -128,13 +131,19 @@ class SiteController extends Controller
     
     public function actionIndex()
     {
-        $model = new RegisterForm();
+        $model = new Users();
+        $model->role = "player";
         
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             // valid data received in $model
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // do something meaningful here about $model ...
-
+            //$newUser = new Users();
+            $model->username = $model->username;
+            $model->password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
+            $model->role = "player";
+            $model->save();
+            
             return $this->render('index', ['model' => $model]);
         } else {
             // either the page is initially displayed or there is some validation error

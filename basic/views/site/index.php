@@ -1,6 +1,8 @@
 <?php
 
 /* @var $this yii\web\View */
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 $this->title = 'My Yii Application';
 ?>
@@ -15,6 +17,19 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="body-content">
+        
+        
+        <?php $form = ActiveForm::begin(); ?>
+
+            <?= $form->field($model, 'username') ?>
+
+            <?= $form->field($model, 'password')->passwordInput() ?>
+
+            <div class="form-group">
+                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+            </div>
+
+        <?php ActiveForm::end(); ?>
         
         
         

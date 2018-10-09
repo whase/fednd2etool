@@ -35,7 +35,7 @@ class Users extends \yii\db\ActiveRecord
             [['username', 'password', 'role'], 'required'],
             [['username', 'password'], 'string', 'max' => 64],
             [['role'], 'string', 'max' => 11],
-            [['name'], 'unique'],
+            [['username'], 'unique'],
         ];
     }
 
@@ -46,7 +46,7 @@ class Users extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'username' => 'Name',
+            'username' => 'Username',
             'password' => 'Password',
             'role' => 'Role',
             'authKey' => 'AuthKey',
