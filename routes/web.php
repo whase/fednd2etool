@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'CharactersController@index');
+
+Route::get('/characters', 'CharactersController@showCharacters');
+
+Route::get('/character/{id}', function () {
+    //use with $id
+    return view('characters/character');
 });
