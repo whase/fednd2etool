@@ -13,9 +13,12 @@
 
 Route::get('/', 'CharactersController@index');
 
-Route::get('/characters', 'CharactersController@showCharacters');
+//Route::get('/characters', 'CharactersController@index');
+//Route::get('/character', 'CharactersController@showCharacter');
 
-Route::get('/character/{id}', function () {
-    //use with $id
-    return view('characters/character');
-});
+
+//Route::get('/character/{id}', function () {
+//    //use with $id
+//    return view('characters/character');
+//});
+Route::resource('characters', 'CharactersController');

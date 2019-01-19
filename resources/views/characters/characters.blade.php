@@ -1,12 +1,14 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Characters</title>
-    </head>
-    <body>
-        <p>list of available characters</p>
-    </body>
-</html>
+@section('content')
+    <h1>Characters</h1>
+    <p>list of available characters</p>
+    @if(count($characters)>0)
+        <ul class="list-group">
+        @foreach($characters as $character)
+            <a href="/characters/{{$character->id}}"><li class="list-group-item">{{$character->name}}<small> level: {{$character->level}}</small></li></a>
+        @endforeach
+        </ul>
+        {{$characters->links()}}
+    @endif
+@endsection
