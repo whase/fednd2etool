@@ -10,5 +10,7 @@
         @endforeach
         </ul>
         {{$characters->links()}}
+
+        <a href="/characters/create"><div class="btn btn-primary">Create a New Character</div></a>
     @endif
 @endsection
