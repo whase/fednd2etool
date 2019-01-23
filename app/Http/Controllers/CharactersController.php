@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Character;
+use App\User;
 
 class CharactersController extends Controller
 {
@@ -14,10 +15,13 @@ class CharactersController extends Controller
      */
     public function index()
     {
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        
         $data = array(
             'title' => 'Characters',
-            'characters' => Character::orderBy('level', 'desc')->paginate(10)
-
+//            'characters' => Character::orderBy('level', 'desc')->paginate(10)
+            'characters' => $user->characters
         );
         return view('characters.characters')->with($data);
     }
@@ -82,6 +86,7 @@ class CharactersController extends Controller
         
         $character->movement = 3;
         $character->shared = false;
+        $character->user_id = auth()->user()->id;
         
         $character->save();
         
