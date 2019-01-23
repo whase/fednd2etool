@@ -182,6 +182,8 @@ class CharactersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $character = Character::find($id);
+        $character->delete();
+        return redirect('/characters')->with('Success', 'Character Deleted');
     }
 }
