@@ -6,7 +6,10 @@
     @if(count($characters)>0)
         <ul class="list-group">
         @foreach($characters as $character)
-            <a href="/characters/{{$character->id}}"><li class="list-group-item">{{$character->name}}<small> level: {{$character->level}}</small></li></a>
+            <a href="/characters/{{$character->id}}"><li class="list-group-item">{{$character->name}}<small> level: {{$character->level}}</small>
+                <a href="/characters/{{$character->id}}/edit" class="float-right"><div class="btn btn-primary">edit</div></a>
+            </li></a>
+            
         @endforeach
         </ul>
         {{$characters->links()}}

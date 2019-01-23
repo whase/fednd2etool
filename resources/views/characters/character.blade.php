@@ -16,5 +16,7 @@
             <li class="list-group-item">MOV: {{$character->movement}}</li>
         
         </ul>
+
+        <a href="/characters/{{$character->id}}/edit"><div class="btn btn-primary">edit</div></a>
     @endif
 @endsection
