@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'CharactersController@index')->name('home');
 
 //Route::get('/characters', 'CharactersController@index');
 //Route::get('/character', 'CharactersController@showCharacter');
@@ -24,4 +24,4 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::resource('characters', 'CharactersController');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'CharactersController@index')->name('home');
