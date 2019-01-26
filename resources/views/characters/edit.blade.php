@@ -44,6 +44,10 @@
                 {{Form::label('resistance', 'RES')}}
                 {{Form::text('resistance', $character->resistance, ['class' => 'form-control', 'placeholder' => '2'])}}
             </div>
+            <div class="form-group">
+                {{Form::label('shared', 'shared')}}
+                {{Form::checkbox('shared', $character->shared, $character->shared, ['data-toggle'=> 'toggle'])}}
+            </div>
             {{Form::hidden('_method', 'PUT')}}
             {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
 

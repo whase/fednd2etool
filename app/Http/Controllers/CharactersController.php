@@ -22,10 +22,18 @@ class CharactersController extends Controller
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
         
+        if(auth()->user()->role == "dm" || auth()->user()->role == "admin")
+        {
+            $characters = Character::orderBy('level', 'desc')->paginate(10);
+        }
+        else{
+            $characters = $user->characters;
+        }
+        
         $data = array(
             'title' => 'Characters',
 //            'characters' => Character::orderBy('level', 'desc')->paginate(10)
-            'characters' => $user->characters
+            'characters' => $characters
         );
         return view('characters.characters')->with($data);
     }
@@ -176,8 +184,15 @@ class CharactersController extends Controller
         } else{$character->resistance = 2;}
         
         $character->movement = 3;
-        $character->shared = false;
         
+        if($request->shared ==null)
+        {
+            $character->shared = 0;
+        }
+        else{
+            $character->shared = 1;
+        }
+      
         $character->save();
         
         return redirect('/characters')->with('Success', 'Character Created');
@@ -192,6 +207,9 @@ class CharactersController extends Controller
     public function destroy($id)
     {
         $character = Character::find($id);
+        if(auth()->user()->id !== $character->user_id){
+            return redirect('/characters')->with('error', 'Unauthorized user trying to delete character');
+        }
         $character->delete();
         return redirect('/characters')->with('Success', 'Character Deleted');
     }
