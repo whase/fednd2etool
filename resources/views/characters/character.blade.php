@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @if($character && Auth::user()->id == $character->user_id)
+    @if($character && (Auth::user()->id == $character->user_id || Auth::user()->role == 'dm' || Auth::user()->role == 'admin'))
         <h2>{{$character->name}}</h2>
         <ul class="list-group">
             
@@ -24,7 +24,7 @@
             {{Form::submit('delete', ['class' => 'btn btn-danger'])}}
         {!!Form::close() !!}
     @else
-        <p>You're not allowed to view this content.</p>
+        <p>401: You're not allowed to view this content.</p>
     @endif
 
     

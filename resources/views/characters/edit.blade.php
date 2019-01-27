@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(Auth::user()->id == $character->user_id)
+    @if(Auth::user()->id == $character->user_id || Auth::user()->role == 'dm' || Auth::user()->role == 'admin')
         <h2>Edit Character</h2>
         {!! Form::open(['action' => ['CharactersController@update', $character->id], 'method' => 'POST']) !!}
             <div class="form-group">
@@ -53,6 +53,6 @@
 
         {!! Form::close() !!}
     @else
-        <p>You are not allowed to edit this character.</p>
+        <p>401: You are not allowed to edit this character.</p>
     @endif
 @endsection

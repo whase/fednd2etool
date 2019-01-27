@@ -14,7 +14,7 @@
 Route::get('/', 'CharactersController@index')->name('home');
 
 //Route::get('/characters', 'CharactersController@index');
-//Route::get('/character', 'CharactersController@showCharacter');
+Route::get('/characters/filter', 'CharactersController@filter');
 
 
 //Route::get('/character/{id}', function () {

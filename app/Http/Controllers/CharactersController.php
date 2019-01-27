@@ -21,22 +21,55 @@ class CharactersController extends Controller
     {
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
+        $role = auth()->user()->role;
         
-        if(auth()->user()->role == "dm" || auth()->user()->role == "admin")
+        if($role == "dm" || $role == "admin")
         {
             $characters = Character::orderBy('level', 'desc')->paginate(10);
         }
         else{
-            $characters = $user->characters;
+            //$characters = $user->characters;
+            $characters = Character::where('user_id', "=", $user_id)->orderBy('level', 'desc')->paginate(10);
         }
         
         $data = array(
             'title' => 'Characters',
-//            'characters' => Character::orderBy('level', 'desc')->paginate(10)
-            'characters' => $characters
+            'characters' => $characters,
+            'role' => $role
         );
         return view('characters.characters')->with($data);
     }
+    
+    public function filter(Request $request)
+    {
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        $sort = $request->input('sort');
+        $filter = $request->input('filter');
+        $role = auth()->user()->role;
+        
+        
+        if($role == "dm" || $role == "admin")
+        {
+                $characters = Character::orderBy($sort, 'asc')->where('name', 'LIKE', '%'.$filter.'%')->orWhere('level', 'LIKE', '%'.$filter.'%')->paginate(10);
+            
+            
+        }
+        else{
+            //$characters = $user->characters;
+            $characters = Character::where('user_id', "=", $user_id)->where('name', 'LIKE', '%'.$filter.'%')->orderBy($sort, 'asc')->orWhere('level', 'LIKE', '%'.$filter.'%')->paginate(10);
+        }
+        
+        $data = array(
+            'title' => 'Characters',
+            'characters' => $characters,
+            'role' => $role,
+            'sort' => $sort,
+            'filter'=>$filter
+        );
+        return view('characters.characters')->with($data);
+    }
+    
 
     /**
      * Show the form for creating a new resource.
