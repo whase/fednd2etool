@@ -47,17 +47,35 @@ class CharactersController extends Controller
         $sort = $request->input('sort');
         $filter = $request->input('filter');
         $role = auth()->user()->role;
+        $levelFilter = $request->levelFilter;
         
+        if($levelFilter != ""){
+            $levelFilter++;
+        }
+        
+//        return " ".$levelFilter;
         
         if($role == "dm" || $role == "admin")
         {
+            if($levelFilter!="")
+            {
+                $characters = Character::orderBy($sort, 'asc')->where('level', '=', $levelFilter)->where('name', 'LIKE', '%'.$filter.'%')->orWhere('level', 'LIKE', '%'.$filter.'%')->where('level', '=', $levelFilter)->paginate(10);
+            }
+            else{
                 $characters = Character::orderBy($sort, 'asc')->where('name', 'LIKE', '%'.$filter.'%')->orWhere('level', 'LIKE', '%'.$filter.'%')->paginate(10);
-            
-            
+            }
+                
         }
         else{
             //$characters = $user->characters;
-            $characters = Character::where('user_id', "=", $user_id)->where('name', 'LIKE', '%'.$filter.'%')->orderBy($sort, 'asc')->orWhere('level', 'LIKE', '%'.$filter.'%')->paginate(10);
+            if($levelFilter!="")
+            {
+                $characters = Character::where('user_id', "=", $user_id)->where('name', 'LIKE', '%'.$filter.'%')->where('level', '=', $levelFilter)->orderBy($sort, 'asc')->paginate(10);
+            }
+            else{
+                $characters = Character::where('user_id', "=", $user_id)->where('name', 'LIKE', '%'.$filter.'%')->orderBy($sort, 'asc')->paginate(10);
+            }
+            
         }
         
         $data = array(
@@ -65,7 +83,8 @@ class CharactersController extends Controller
             'characters' => $characters,
             'role' => $role,
             'sort' => $sort,
-            'filter'=>$filter
+            'filter'=>$filter,
+            'levelFilter' => $levelFilter
         );
         return view('characters.characters')->with($data);
     }
@@ -146,9 +165,12 @@ class CharactersController extends Controller
      */
     public function show($id)
     {
+        $role = auth()->user()->role;
+        
         $data = array(
             'title' => 'Character',
-            'character' => Character::find($id)
+            'character' => Character::find($id),
+            'role' => $role
         );
         
         return view('characters.character')->with($data);
@@ -162,14 +184,42 @@ class CharactersController extends Controller
      */
     public function edit($id)
     {
+        $role = auth()->user()->role;
+        
         $data = array(
             'title' => 'Edit Character',
-            'character' => Character::find($id)
+            'character' => Character::find($id),
+            'role' => $role
         );
         
         return view('characters.edit')->with($data);
     }
 
+    public function addExp(Request $request, $id)
+    {
+        $this->validate($request,[
+            'exp' => 'required'
+        ]);
+        
+        $character = Character::find($id);
+        
+        $character->experience += $request->exp;
+        $character->save();
+        
+        return redirect('/characters/'.$id)->with('Success', 'Experience gained');
+    }
+    public function levelup(Request $request, $id)
+    {
+        
+        $character = Character::find($id);
+        
+        $character->experience -= 100;
+        $character->level++;
+        $character->save();
+        
+        return redirect('/characters/'.$id)->with('Success', 'leveled up');
+    }
+    
     /**
      * Update the specified resource in storage.
      *
@@ -228,7 +278,7 @@ class CharactersController extends Controller
       
         $character->save();
         
-        return redirect('/characters')->with('Success', 'Character Created');
+        return redirect('/characters/'.$id)->with('Success', 'Character Created');
     }
 
     /**

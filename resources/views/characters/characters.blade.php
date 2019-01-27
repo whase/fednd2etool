@@ -22,6 +22,14 @@
                      {{Form::text('filter', '', ['class' => 'form-control', 'placeholder' => 'search'])}}
                 @endif
             </div>
+            <div class="form-group">
+                {{Form::label('levelFilter', 'Level: ')}}
+                @if(isset($levelFilter))
+                    {{ Form::select('levelFilter', array('' => 'any') + range(1,20), $levelFilter-1) }}
+                @else
+                    {{ Form::select('levelFilter', array('' => 'any') + range(1,20)) }}
+                @endif
+            </div>
             {{Form::hidden('_method', 'GET')}}
             {{Form::submit('filter', ['class'=>'btn btn-primary'])}}
 
@@ -32,8 +40,8 @@
                 <th>Level</th>
                 @if($role == 'dm' || $role == 'admin')
                     <th>Player</th>
+                    <th></th>
                 @endif
-                <th></th>
             </tr>
             @foreach($characters as $character)
                 <tr>
@@ -41,10 +49,10 @@
                     <td>{{$character->level}}</td>
                     @if($role == 'dm' || $role == 'admin')
                         <td>{{$character->user->name}}</td>
+                        <td>
+                            <a href="/characters/{{$character->id}}/edit" class="btn btn-primary">edit</a>
+                        </td>
                     @endif
-                    <td>
-                        <a href="/characters/{{$character->id}}/edit" class="btn btn-primary">edit</a>
-                    </td>
                 </tr>
             @endforeach
         </table>

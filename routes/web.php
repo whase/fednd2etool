@@ -15,6 +15,8 @@ Route::get('/', 'CharactersController@index')->name('home');
 
 //Route::get('/characters', 'CharactersController@index');
 Route::get('/characters/filter', 'CharactersController@filter');
+Route::put('/characters/addExp/{character}', 'CharactersController@addExp');
+Route::put('/characters/levelup/{character}', 'CharactersController@levelup');
 
 
 //Route::get('/character/{id}', function () {
@@ -22,6 +24,7 @@ Route::get('/characters/filter', 'CharactersController@filter');
 //    return view('characters/character');
 //});
 Route::resource('characters', 'CharactersController');
+Route::resource('tags', 'TagsController');
 Auth::routes();
 
 Route::get('/home', 'CharactersController@index')->name('home');
