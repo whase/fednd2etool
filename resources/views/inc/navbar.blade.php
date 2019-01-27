@@ -12,7 +12,7 @@
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
-
+<!--                !Navbar left in for future use
 					<ul class="navbar-nav mr-auto">
 					  <li class="nav-item active">
 						<a class="nav-link" href="/characters">Characters</a>
@@ -21,6 +21,7 @@
 						<a class="nav-link" href="/character">Character</a>
 					  </li>
 					</ul>
+-->
 					
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">

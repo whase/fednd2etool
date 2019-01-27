@@ -28,6 +28,7 @@ class CharactersController extends Controller
             $characters = Character::orderBy('level', 'desc')->paginate(10);
         }
         else{
+            //see below another way to get characters, not implemented other way was easier here, left in for future eager loading possibilities
             //$characters = $user->characters;
             $characters = Character::where('user_id', "=", $user_id)->orderBy('level', 'desc')->paginate(10);
         }
@@ -39,7 +40,7 @@ class CharactersController extends Controller
         );
         return view('characters.characters')->with($data);
     }
-    
+    //index but with filtering added
     public function filter(Request $request)
     {
         $user_id = auth()->user()->id;
@@ -67,7 +68,6 @@ class CharactersController extends Controller
                 
         }
         else{
-            //$characters = $user->characters;
             if($levelFilter!="")
             {
                 $characters = Character::where('user_id', "=", $user_id)->where('name', 'LIKE', '%'.$filter.'%')->where('level', '=', $levelFilter)->orderBy($sort, 'asc')->paginate(10);
@@ -194,7 +194,7 @@ class CharactersController extends Controller
         
         return view('characters.edit')->with($data);
     }
-
+    //called from user on detail view addExp button
     public function addExp(Request $request, $id)
     {
         $this->validate($request,[
@@ -208,6 +208,7 @@ class CharactersController extends Controller
         
         return redirect('/characters/'.$id)->with('Success', 'Experience gained');
     }
+    //called from user on detail view levelup button, only with 100+ exp
     public function levelup(Request $request, $id)
     {
         

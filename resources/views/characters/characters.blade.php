@@ -56,6 +56,7 @@
                 </tr>
             @endforeach
         </table>
+        {{$characters->links()}}
     @else
         <p>Please create your character</p>
     @endif
